@@ -40,7 +40,7 @@ func openDoor() error {
 	pin := rpio.Pin(10)
 	pin.Output()
 	pin.High()
-	time.Sleep(10 * time.Second)
+	time.Sleep(3 * time.Second)
 	pin.Low()
 
 	rpio.Close()
