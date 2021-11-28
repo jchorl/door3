@@ -16,6 +16,8 @@ import (
 var domain = flag.String("domain", "", "the domain to get tls certs for")
 var username = flag.String("username", "", "username to auth requests")
 var password = flag.String("password", "", "password to auth requests")
+var duration = flag.Duration("duration", time.Second, "amount of time to open door for")
+var pin = flag.Int("pin", 8, "pin to output high on open")
 
 func BasicAuth(handler http.HandlerFunc, username, password, realm string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -37,10 +39,10 @@ func openDoor() error {
 		return fmt.Errorf("rpio.Open: %w", err)
 	}
 
-	pin := rpio.Pin(10)
+	pin := rpio.Pin(*pin)
 	pin.Output()
 	pin.High()
-	time.Sleep(3 * time.Second)
+	time.Sleep(*duration)
 	pin.Low()
 
 	rpio.Close()
