@@ -1,0 +1,14 @@
+[Unit]
+Description=door
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=5
+User=root
+ExecStart=/home/pi/door --domain home.choo.dev --username <TODO> --password <TODO>
+
+[Install]
+WantedBy=multi-user.target
