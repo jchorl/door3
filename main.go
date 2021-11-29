@@ -33,6 +33,21 @@ func BasicAuth(handler http.HandlerFunc, username, password, realm string) http.
 	}
 }
 
+func closeDoor() error {
+	err := rpio.Open()
+	if err != nil {
+		return fmt.Errorf("rpio.Open: %w", err)
+	}
+
+	pin := rpio.Pin(*pin)
+	pin.Output()
+	pin.Low()
+
+	rpio.Close()
+
+	return nil
+}
+
 func openDoor() error {
 	err := rpio.Open()
 	if err != nil {
@@ -62,6 +77,13 @@ func main() {
 	if *password == "" {
 		log.Fatal("password flag cannot be empty")
 	}
+
+	err := closeDoor()
+	if err != nil {
+		log.Fatalf("closeDoor: %+v", err)
+	}
+
+	defer closeDoor()
 
 	certManager := autocert.Manager{
 		Prompt:     autocert.AcceptTOS,
