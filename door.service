@@ -8,7 +8,7 @@ Type=simple
 Restart=always
 RestartSec=5
 User=root
-ExecStart=/home/pi/door --domain home.choo.dev --username <TODO> --password <TODO> --duration 3s --pin 14 -logtostderr
+ExecStart=/home/pi/door --domain home.choo.dev --username <TODO> --password <TODO> --duration 3s --pin 18 -logtostderr
 
 [Install]
 WantedBy=multi-user.target
